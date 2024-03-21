@@ -6,16 +6,25 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Properties")]
     [SerializeField] Rigidbody rb;
     [SerializeField] private float mass;
     [SerializeField] private float acceleration;
     [SerializeField] private float force;
     [SerializeField] private float jumpForce;
+    
+    [Header("Force Limit")]
+    [SerializeField] public Vector3 limitVel;
 
+    [Header("Ground Check")]
     public bool groundCheck = false;
     public float groundCheckDistance;
     public float Myfloat;
     
+    [Header("Timer Unlock Force Limit In Air")]
+    public bool check;
+    public float setTimer;
+    public float t;
     
     
     // Start is called before the first frame update
@@ -23,11 +32,25 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody>();
         mass = rb.mass;
+        
+        check = false;
+        t = setTimer;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+        if (check == true)
+        { 
+            t -= Time.deltaTime;
+            if (t < 0)
+            {
+                check = false;
+                t = setTimer;
+            }
+        }
+        
         RaycastHit hit;
         groundCheck = Physics.Raycast(transform.position, -transform.up, out hit, groundCheckDistance);
         
@@ -66,14 +89,28 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 flatvel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         //limit velocity 
-        if (flatvel.magnitude > force)
+        if (flatvel.magnitude > force && check != true)
         {
-            Vector3 limitVel = flatvel.normalized * force;
+            limitVel = flatvel.normalized * force;
             rb.velocity = new Vector3(limitVel.x, rb.velocity.y, limitVel.z);
         }
+        //if hit enemy,not using limit but using force from enemy knockback
+        if (check == true)
+        {
+            
+            Debug.Log("Triggered by player");
+            Debug.Log("ZDFVGBNM<");
+        }
         Debug.Log(rb.velocity);
+        //Debug.Log("out = "+ Knockback.check );
 
     }
 
-    
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
+            check = true;
+        }
+    }
 }

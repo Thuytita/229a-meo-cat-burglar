@@ -28,6 +28,10 @@ public class PlayerMovement : MonoBehaviour
     
     
     
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
         
         check = false;
         t = setTimer;
+        
         
     }
 
@@ -78,10 +83,12 @@ public class PlayerMovement : MonoBehaviour
         //add Force along with direction
         rb.AddForce(moveDirection * force, ForceMode.Force);
         Debug.Log(Friction.friction);
-        
 
-        
+
+
     }
+    
+    
     private void Jump()
     { 
         //if press spce = jump whenever player grounded or not in sticky floor
@@ -123,4 +130,6 @@ public class PlayerMovement : MonoBehaviour
             Destroy(other.gameObject); 
         }
     }
+
+    
 }

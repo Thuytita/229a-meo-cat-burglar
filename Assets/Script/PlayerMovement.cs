@@ -123,13 +123,13 @@ public class PlayerMovement : MonoBehaviour
                           //and unlock Force limit for shot because it would make Knock Back feel forceful
         }
     }
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Fish")
         {
             Destroy(other.gameObject); 
         }
-    }
+    }*/
 
     
 }

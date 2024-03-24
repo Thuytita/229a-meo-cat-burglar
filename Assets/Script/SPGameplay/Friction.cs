@@ -18,21 +18,28 @@ public class Friction : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //friction formular f= mu * mg
-        friction = player.mass * mu * 10;
-        
-        //if firction less than zero that mean for slippery...
-        //but in real life it close to zero but I make it more relate ;) 
-        if (friction > 0) 
+        if (other.gameObject.tag == "Player")
         {
-            nonStickyCheck = false;
+            //friction formular f= mu * mg
+            friction = player.mass * mu * 10;
+                    
+            //if firction less than zero that mean for slippery...
+            //but in real life it close to zero but I make it more relate ;) 
+            if (friction > 0) 
+            {
+                nonStickyCheck = false;
+            }
         }
         
     }
     
     private void OnTriggerExit(Collider other)
     {
-        friction = 0;
-        nonStickyCheck = true;
+        if (other.gameObject.tag == "Player")
+        {
+            friction = 0;
+            nonStickyCheck = true;
+        }
+        
     }
 }
